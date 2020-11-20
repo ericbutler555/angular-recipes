@@ -9,6 +9,7 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { RecipeListComponent } from './recipes/list/list.component';
 import { RecipeItemComponent } from './recipes/item/item.component';
 import { RecipeDetailComponent } from './recipes/detail/detail.component';
+import { RecipeStartComponent } from './recipes/start/start.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingListEditComponent } from './shopping-list/edit/edit.component';
 
@@ -20,6 +21,7 @@ import { ShoppingListEditComponent } from './shopping-list/edit/edit.component';
     RecipeListComponent,
     RecipeItemComponent,
     RecipeDetailComponent,
+    RecipeStartComponent,
     ShoppingListComponent,
     ShoppingListEditComponent
   ],
