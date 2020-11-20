@@ -8,7 +8,6 @@ import { Recipe } from '../recipe';
   styleUrls: ['./list.component.scss']
 })
 export class RecipeListComponent implements OnInit {
-
   recipes: Recipe[];
 
   constructor(private recipeService: RecipeService) { }
