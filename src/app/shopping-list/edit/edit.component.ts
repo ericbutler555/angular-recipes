@@ -13,8 +13,7 @@ export class ShoppingListEditComponent implements OnInit {
 
   constructor(private shoppingListService: ShoppingListService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   onAddItem() {
     const newIngredient = new Ingredient(
@@ -23,5 +22,4 @@ export class ShoppingListEditComponent implements OnInit {
     );
     this.shoppingListService.addIngredient(newIngredient);
   }
-
 }
