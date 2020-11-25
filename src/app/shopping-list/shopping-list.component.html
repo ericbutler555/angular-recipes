@@ -1,11 +1,21 @@
 <div class="row">
 	<div class="col-xs-12">
-		<app-shopping-list-edit></app-shopping-list-edit>
+
+		<app-shopping-list-edit
+			[editMode]="isEditing"
+			[ingredient]="editingIngredient"
+			[index]="editingIndex"
+			(refreshForm)="resetProperties();"></app-shopping-list-edit>
+
 		<hr />
+
 		<ul class="list-group">
-			<li *ngFor="let ingredient of ingredients" class="list-group-item">
-				<a>{{ ingredient.name }} ({{ ingredient.amount }})</a>
+			<li *ngFor="let i = index; let ingredient of ingredients" class="list-group-item">
+				<a (click)="onEditClick(i)">
+					{{ ingredient.name }} ({{ ingredient.amount }})
+				</a>
 			</li>
 		</ul>
+
 	</div>
 </div>
