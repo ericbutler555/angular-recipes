@@ -14,6 +14,8 @@ import { RecipeEditComponent } from './recipes/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingListEditComponent } from './shopping-list/edit/edit.component';
 
+import { ShortenPipe } from './shared/shorten.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +27,8 @@ import { ShoppingListEditComponent } from './shopping-list/edit/edit.component';
     RecipeDetailComponent,
     RecipeEditComponent,
     ShoppingListComponent,
-    ShoppingListEditComponent
+    ShoppingListEditComponent,
+    ShortenPipe
   ],
   imports: [
     BrowserModule,
