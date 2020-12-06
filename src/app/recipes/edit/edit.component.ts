@@ -10,7 +10,12 @@ import { RecipeService } from '../recipe.service';
   styleUrls: ['./edit.component.scss']
 })
 export class RecipeEditComponent implements OnInit {
-  id: number;
+  // Using local recipes array:
+  // id: number;
+
+  // Using Firebase db:
+  guid: string;
+
   editMode: boolean = false;
   recipe: Recipe;
   recipeForm: FormGroup;
@@ -22,12 +27,26 @@ export class RecipeEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params['id'];
-      if (params['id'] != null) {
+
+      // Using local recipes array:
+      // this.id = +params['id'];
+      // if (params['id'] != null) {
+      //   this.editMode = true;
+      //   this.recipe = this.recipeService.getRecipe(this.id);
+      // }
+      // this.initForm();
+
+      // Using Firebase db:
+      this.guid = params['guid'];
+      if (params['guid'] != null) {
         this.editMode = true;
-        this.recipe = this.recipeService.getRecipe(this.id);
+        this.recipeService.getRecipeApi(this.guid).subscribe(recipe => {
+          this.recipe = recipe;
+          this.initForm();
+        });
+      } else {
+        this.initForm();
       }
-      this.initForm();
     });
   }
 
@@ -36,7 +55,7 @@ export class RecipeEditComponent implements OnInit {
 
     if (this.editMode && this.recipe?.ingredients?.length > 0) {
       for (let ingredient of this.recipe.ingredients) {
-        let item = new FormGroup({
+        const item = new FormGroup({
           'name': new FormControl(ingredient.name, Validators.required),
           'amount': new FormControl(ingredient.amount, [Validators.required, Validators.pattern(/^[1-9][0-9]*/)])
         });
@@ -47,7 +66,7 @@ export class RecipeEditComponent implements OnInit {
     this.recipeForm = new FormGroup({
       'name': new FormControl(this.recipe?.name, Validators.required),
       'description': new FormControl(this.recipe?.description, Validators.required),
-      'imagePath': new FormControl(this.recipe?.imagePath, Validators.required),
+      'imagePath': new FormControl(this.recipe?.imagePath),
       'ingredients': new FormArray(ingredientsArray)
     });
   }
@@ -65,9 +84,17 @@ export class RecipeEditComponent implements OnInit {
 
   onSubmit() {
     if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, this.recipeForm.value);
+      // Using local recipe array:
+      // this.recipeService.updateRecipe(this.id, this.recipeForm.value);
+
+      // Using Firebase db:
+      this.recipeService.updateRecipeApi(this.guid, this.recipeForm.value);
     } else {
-      this.recipeService.addRecipe(this.recipeForm.value);
+      // Using local recipe array:
+      // this.recipeService.addRecipe(this.recipeForm.value);
+
+      // Using Firebase db:
+      this.recipeService.addRecipeApi(this.recipeForm.value);
     }
     this.onClear();
   }
@@ -75,7 +102,8 @@ export class RecipeEditComponent implements OnInit {
   onClear() {
     this.recipeForm.reset();
     if (this.editMode) {
-      this.router.navigate(['/recipes', this.id]);
+      // this.router.navigate(['/recipes', this.id]);
+      this.router.navigate(['/recipes', this.guid]);
     } else {
       this.router.navigate(['/recipes']);
     }

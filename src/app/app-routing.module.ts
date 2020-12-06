@@ -10,8 +10,14 @@ const routes: Routes = [
   { path: 'recipes', component: RecipesComponent, children: [
     { path: '', component: RecipeStartComponent },
     { path: 'new', component: RecipeEditComponent },
-    { path: ':id', component: RecipeDetailComponent },
-    { path: ':id/edit', component: RecipeEditComponent }
+
+    // Using local recipe array:
+    // { path: ':id', component: RecipeDetailComponent },
+    // { path: ':id/edit', component: RecipeEditComponent }
+
+    // Using Firebase db:
+    { path: ':guid', component: RecipeDetailComponent },
+    { path: ':guid/edit', component: RecipeEditComponent }
   ] },
   { path: 'shopping-list', component: ShoppingListComponent },
   { path: '', redirectTo: '/recipes', pathMatch: 'full' }

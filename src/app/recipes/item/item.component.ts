@@ -8,5 +8,6 @@ import { Recipe } from '../recipe';
 })
 export class RecipeItemComponent {
   @Input() recipe: Recipe;
-  @Input() index: number;
+  // Using local recipes array:
+  // @Input() index: number;
 }

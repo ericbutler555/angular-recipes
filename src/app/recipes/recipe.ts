@@ -2,6 +2,7 @@ import { Ingredient } from '../shared/ingredient';
 
 export class Recipe {
 
+	public guid?: string;
 	public name: string;
 	public description: string;
 	public imagePath?: string;

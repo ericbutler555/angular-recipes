@@ -10,15 +10,28 @@ import { RecipeService } from '../recipe.service';
   styleUrls: ['./detail.component.scss']
 })
 export class RecipeDetailComponent implements OnInit {
+  // Using local recipes array:
+  // id: number;
+
+  // Using Firebase db:
+  guid: string;
   recipe: Recipe;
-  id: number;
 
   constructor(private recipeService: RecipeService, private shoppingListService: ShoppingListService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params['id'];
-      this.recipe = this.recipeService.getRecipe(this.id);
+
+      // Using local recipe array:
+      // this.id = +params['id'];
+      // this.recipe = this.recipeService.getRecipe(this.id);
+
+      // Using Firebase db:
+      this.guid = params['guid'];
+      this.recipeService.getRecipeApi(this.guid).subscribe(recipe => {
+        this.recipe = recipe;
+      });
+
     });
   }
 
@@ -27,7 +40,11 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onDeleteRecipe() {
-    this.recipeService.deleteRecipe(this.id);
+    // Using local recipe array:
+    // this.recipeService.deleteRecipe(this.id);
+
+    // Using Firebase db:
+    this.recipeService.deleteRecipeApi(this.guid);
     this.router.navigate(['/recipes']);
   }
 }

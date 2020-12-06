@@ -15,9 +15,14 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   constructor(private recipeService: RecipeService) { }
 
   ngOnInit(): void {
-    this.recipes = this.recipeService.getRecipes();
+    // Using local recipes array:
+    // this.recipes = this.recipeService.getRecipes();
 
-    // listen for changes and update list as needed
+    // Using Firebase db:
+    // set the initial data for the component...
+    this.recipeService.getRecipesApi();
+
+    // ...then listen for future changes and update list as needed
     this.subscription = this.recipeService.recipesChanged.subscribe((recipesList: Recipe[]) => {
       this.recipes = recipesList;
     });
