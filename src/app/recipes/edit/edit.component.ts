@@ -26,6 +26,10 @@ export class RecipeEditComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private recipeService: RecipeService) { }
 
   ngOnInit(): void {
+
+    this.recipe = this.route.snapshot.data.recipe;
+    this.initForm();
+
     this.route.params.subscribe((params: Params) => {
 
       // Using local recipes array:

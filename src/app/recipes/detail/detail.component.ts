@@ -20,6 +20,9 @@ export class RecipeDetailComponent implements OnInit {
   constructor(private recipeService: RecipeService, private shoppingListService: ShoppingListService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
+
+    this.recipe = this.route.snapshot.data.recipe;
+
     this.route.params.subscribe((params: Params) => {
 
       // Using local recipe array:

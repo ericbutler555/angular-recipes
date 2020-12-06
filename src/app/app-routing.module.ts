@@ -5,6 +5,7 @@ import { RecipeStartComponent } from './recipes/start/start.component';
 import { RecipeDetailComponent } from './recipes/detail/detail.component';
 import { RecipeEditComponent } from './recipes/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { RecipeResolverService } from './recipes/recipe-resolver.service';
 
 const routes: Routes = [
   { path: 'recipes', component: RecipesComponent, children: [
@@ -16,8 +17,8 @@ const routes: Routes = [
     // { path: ':id/edit', component: RecipeEditComponent }
 
     // Using Firebase db:
-    { path: ':guid', component: RecipeDetailComponent },
-    { path: ':guid/edit', component: RecipeEditComponent }
+    { path: ':guid', component: RecipeDetailComponent, resolve: { recipe: RecipeResolverService } },
+    { path: ':guid/edit', component: RecipeEditComponent, resolve: { recipe: RecipeResolverService } }
   ] },
   { path: 'shopping-list', component: ShoppingListComponent },
   { path: '', redirectTo: '/recipes', pathMatch: 'full' }
