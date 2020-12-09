@@ -14,6 +14,8 @@ import { RecipeDetailComponent } from './recipes/detail/detail.component';
 import { RecipeEditComponent } from './recipes/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingListEditComponent } from './shopping-list/edit/edit.component';
+import { AuthComponent } from './auth/auth.component';
+import { LogoutComponent } from './auth/logout/logout.component';
 
 import { ShortenPipe } from './shared/shorten.pipe';
 
@@ -29,6 +31,8 @@ import { ShortenPipe } from './shared/shorten.pipe';
     RecipeEditComponent,
     ShoppingListComponent,
     ShoppingListEditComponent,
+    AuthComponent,
+    LogoutComponent,
     ShortenPipe
   ],
   imports: [
