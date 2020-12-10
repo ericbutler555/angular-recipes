@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -17,6 +17,7 @@ import { ShoppingListEditComponent } from './shopping-list/edit/edit.component';
 import { AuthComponent } from './auth/auth.component';
 import { LogoutComponent } from './auth/logout/logout.component';
 
+import { AuthInterceptor } from './auth/auth.interceptor';
 import { ShortenPipe } from './shared/shorten.pipe';
 
 @NgModule({
@@ -42,7 +43,9 @@ import { ShortenPipe } from './shared/shorten.pipe';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

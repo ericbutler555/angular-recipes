@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { Subject, throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { User } from './user';
@@ -24,7 +24,7 @@ interface AuthResponseData {
 export class AuthService {
 
   api_key: string = 'AIzaSyD4LZhPf2Wly567ZNZFxw1hsO8MWEg9uzU'; // unique "Web API Key" found in my Firebase project settings
-  user = new Subject<User>(); // making this an observable so diff parts of the app can react to changes (on login/logout)
+  user = new BehaviorSubject<User>(null); // making this an observable so diff parts of the app can react to changes (on login/logout)
 
   constructor(private http: HttpClient, private router: Router) { }
 
