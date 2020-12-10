@@ -25,6 +25,7 @@ export class AuthService {
 
   api_key: string = 'AIzaSyD4LZhPf2Wly567ZNZFxw1hsO8MWEg9uzU'; // unique "Web API Key" found in my Firebase project settings
   user = new BehaviorSubject<User>(null); // making this an observable so diff parts of the app can react to changes (on login/logout)
+  private autoLogoutTimer;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -54,6 +55,8 @@ export class AuthService {
 
   logout() {
     this.user.next(null); // push a null user to anywhere that's subscribed/reacting to a current-user check
+    localStorage.removeItem('user'); // remove data from localStorage
+    if (this.autoLogoutTimer) clearTimeout(this.autoLogoutTimer); // remove the timer for auto-logging out
     this.router.navigate(['/logout']); // totally optional, but nice for user to see they've logged out
   }
 
@@ -81,8 +84,37 @@ export class AuthService {
   }
 
   private setUser(response) {
-    const expirationDate = new Date(new Date().getTime() + (+response.expiresIn * 1000));
+    const expiresInMs = (+response.expiresIn * 1000);
+    const expirationDate = new Date(new Date().getTime() + expiresInMs);
     const theUser = new User(response.localId, response.email, response.idToken, expirationDate);
     this.user.next(theUser); // push the new user to anywhere that's subscribed/reacting to a current-user check
+    localStorage.setItem('user', JSON.stringify(theUser)); // persist the user in the browser
+    this.autoLogout(expiresInMs);
+  }
+
+  autoLogin() {
+    // on page load, set login status if an active user is stored in localStorage:
+    const userData = JSON.parse(localStorage.getItem('user'));
+    if (!userData) return;
+    const savedUser = new User(
+      userData.id,
+      userData.email,
+      userData._token,
+      userData._tokenExpirationDate
+    );
+    if (savedUser.token) {
+      // remember that the "token" getter here is different than the _token property set above
+      this.user.next(savedUser);
+
+      const remainingLogoutTime = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
+      this.autoLogout(remainingLogoutTime);
+    }
+  }
+
+  autoLogout(expiresInMs: number) {
+    // since Firebase auth tokens are only valid for a while, need to automatically log user out once it expires:
+    this.autoLogoutTimer = setTimeout(() => {
+      this.logout();
+    }, expiresInMs);
   }
 }
