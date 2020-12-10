@@ -6,6 +6,7 @@ import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { User } from './user';
+import { environment } from '../../environments/environment';
 
 // can create this here since we're only ever using it here in the auth service.
 // it's not necessary, but this just gives us TypeScript type hinting.
@@ -23,7 +24,6 @@ interface AuthResponseData {
 })
 export class AuthService {
 
-  api_key: string = 'AIzaSyD4LZhPf2Wly567ZNZFxw1hsO8MWEg9uzU'; // unique "Web API Key" found in my Firebase project settings
   user = new BehaviorSubject<User>(null); // making this an observable so diff parts of the app can react to changes (on login/logout)
   private autoLogoutTimer;
 
@@ -31,7 +31,7 @@ export class AuthService {
 
   signup(creds) {
     return this.http.post<AuthResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + this.api_key,
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firebase_api_key,
       {
         "email": creds.email,
         "password": creds.password,
@@ -43,7 +43,7 @@ export class AuthService {
 
   login(creds) {
     return this.http.post<AuthResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.api_key,
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.firebase_api_key,
       {
         "email": creds.email,
         "password": creds.password,

@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase_url: 'https://max-recipes.firebaseio.com/', // Firebase project
+  firebase_api_key: 'AIzaSyD4LZhPf2Wly567ZNZFxw1hsO8MWEg9uzU' // unique "Web API Key" found in my Firebase project settings
 };
 
 /*

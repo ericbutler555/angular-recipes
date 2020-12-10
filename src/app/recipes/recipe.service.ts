@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Recipe } from './recipe';
 // import { Ingredient } from '../shared/ingredient';
 import { Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -34,18 +35,17 @@ export class RecipeService {
 
   // For storing recipe data in a db:
   private recipes: Recipe[] = [];
-  private readonly firebase_url: string = 'https://max-recipes.firebaseio.com/';
 
   constructor(private http: HttpClient) { }
 
   // HTTP methods for db integration:
 
   seedRecipesApi() {
-    this.http.put(this.firebase_url + 'recipes.json', this.recipes).subscribe();
+    this.http.put(environment.firebase_url + 'recipes.json', this.recipes).subscribe();
   }
 
   getRecipesApi() {
-    this.http.get<Recipe[]>(this.firebase_url + 'recipes.json').subscribe(response => {
+    this.http.get<Recipe[]>(environment.firebase_url + 'recipes.json').subscribe(response => {
         // since Firebase returns an object, not an array, and its items don't have primary keys,
         // you have to do this extra loop-through instead of just doing `this.recipes = response`:
         const recipeArray = [];
@@ -60,23 +60,23 @@ export class RecipeService {
   }
 
   getRecipeApi(guid: string) {
-    return this.http.get<Recipe>(this.firebase_url + `recipes/${guid}.json`);
+    return this.http.get<Recipe>(environment.firebase_url + `recipes/${guid}.json`);
   }
 
   addRecipeApi(recipe: Recipe) {
-    this.http.post(this.firebase_url + 'recipes.json', recipe).subscribe(() => {
+    this.http.post(environment.firebase_url + 'recipes.json', recipe).subscribe(() => {
       this.getRecipesApi();
     });
   }
 
   updateRecipeApi(guid: string, recipe: Recipe) {
-    this.http.put(this.firebase_url + `recipes/${guid}.json`, recipe).subscribe(() => {
+    this.http.put(environment.firebase_url + `recipes/${guid}.json`, recipe).subscribe(() => {
       this.getRecipesApi();
     });
   }
 
   deleteRecipeApi(guid: string) {
-    this.http.delete(this.firebase_url + `recipes/${guid}.json`).subscribe(() => {
+    this.http.delete(environment.firebase_url + `recipes/${guid}.json`).subscribe(() => {
       this.getRecipesApi();
     });
   }
