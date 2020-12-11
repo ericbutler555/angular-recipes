@@ -14,18 +14,21 @@ import { AuthGuard } from '../auth/auth.guard';
 import { RecipeResolverService } from '../recipes/recipe-resolver.service';
 
 const recipeRoutes: Routes = [
-  { path: 'recipes', component: RecipesComponent, canActivate: [AuthGuard], children: [
-    { path: '', component: RecipeStartComponent },
-    { path: 'new', component: RecipeEditComponent },
+  {
+    // path is '' since 'recipes' is defined in app-routing.module (to enable lazy-load)
+    path: '', component: RecipesComponent, canActivate: [AuthGuard], children: [
+      { path: '', component: RecipeStartComponent },
+      { path: 'new', component: RecipeEditComponent },
 
-    // Using local recipe array:
-    // { path: ':id', component: RecipeDetailComponent },
-    // { path: ':id/edit', component: RecipeEditComponent }
+      // Using local recipe array:
+      // { path: ':id', component: RecipeDetailComponent },
+      // { path: ':id/edit', component: RecipeEditComponent }
 
-    // Using Firebase db:
-    { path: ':guid', component: RecipeDetailComponent, resolve: { recipe: RecipeResolverService } },
-    { path: ':guid/edit', component: RecipeEditComponent, resolve: { recipe: RecipeResolverService } }
-  ] },
+      // Using Firebase db:
+      { path: ':guid', component: RecipeDetailComponent, resolve: { recipe: RecipeResolverService } },
+      { path: ':guid/edit', component: RecipeEditComponent, resolve: { recipe: RecipeResolverService } }
+    ]
+  }
 ];
 
 @NgModule({

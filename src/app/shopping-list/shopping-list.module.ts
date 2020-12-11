@@ -14,7 +14,8 @@ import { ShoppingListEditComponent } from './edit/edit.component';
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: 'shopping-list', component: ShoppingListComponent }
+      { path: '', component: ShoppingListComponent }
+      // path is '' since 'shopping-list' is defined in app-routing.module (to enable lazy-load)
     ]),
     FormsModule,
     ReactiveFormsModule
