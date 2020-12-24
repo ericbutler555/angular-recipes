@@ -8,7 +8,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})], // this extra preloading config is optional, without it the app will wait to load modules until the user requests them
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })], // this extra preloading config is optional, without it the app will wait to load modules until the user requests them
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
